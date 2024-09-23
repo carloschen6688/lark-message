@@ -1,0 +1,30 @@
+name: Lark message action
+description: This action help to send message to Lark
+author: 'Nghi Nguyen'
+branding:
+  icon: send
+  color: green
+inputs:
+  lark-bot-notify-webhook:
+    description: 'Lark Bot Notify Webhook'
+    required: true
+  lark-signature-verification:
+    description: 'Lark Signature Verification'
+    required: false
+  title:
+    description: 'Notify title'
+    required: true
+  content:
+    description: 'Notify content'
+    required: true
+  header-color:
+    description: 'Notify header color'
+    required: false
+    default: 'green'
+runs:
+  using: composite
+  steps:
+    - name: Send message to Lark
+      shell: bash
+      run: |
+        python $GITHUB_ACTION_PATH/scripts/send_message.py --title "${{ inputs.title }}" --content "${{ inputs.content }}" --lark-signature-verification "${{ inputs.lark-signature-verification }}" --lark-bot-notify-webhook "${{ inputs.lark-bot-notify-webhook }}" --header-color "${{ inputs.header-color }}"
